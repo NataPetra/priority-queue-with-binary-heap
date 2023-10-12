@@ -2,14 +2,31 @@ package by.nata.priorityqueue.util;
 
 import by.nata.priorityqueue.util.api.Heap;
 
+/**
+ * This class represents a MaxHeap, which is a data structure that maintains the maximum element
+ * at the top of the heap. It implements the Heap interface and can be used to create a priority
+ * queue with the maximum element as the highest priority.
+ *
+ * @param <T> The type of elements stored in the MaxHeap. It should implement the Comparable interface
+ *           to enable comparison of elements.
+ */
 public class MaxHeap<T extends Comparable<T>> implements Heap<T> {
 
     private final CustomArrayList<T> heap;
 
+    /**
+     * Constructs a new MaxHeap.
+     */
     public MaxHeap() {
         heap = new CustomArrayList<>();
     }
 
+    /**
+     * Inserts a new element into the MaxHeap.
+     *
+     * @param item The element to be inserted. Must not be null.
+     * @throws IllegalArgumentException if the provided element is null.
+     */
     @Override
     public void insert(T item) {
         if (item == null) {
@@ -19,6 +36,12 @@ public class MaxHeap<T extends Comparable<T>> implements Heap<T> {
         siftUp(heap.size() - 1);
     }
 
+    /**
+     * Returns the maximum element in the MaxHeap without removing it.
+     *
+     * @return The maximum element in the MaxHeap.
+     * @throws IllegalStateException if the MaxHeap is empty.
+     */
     @Override
     public T peek() {
         if (isEmpty()) {
@@ -27,6 +50,12 @@ public class MaxHeap<T extends Comparable<T>> implements Heap<T> {
         return heap.get(0);
     }
 
+    /**
+     * Extracts and removes the maximum element from the MaxHeap.
+     *
+     * @return The maximum element that was removed.
+     * @throws IllegalStateException if the MaxHeap is empty.
+     */
     public T extractMax() throws IllegalStateException {
         if (isEmpty()) {
             throw new IllegalStateException("Heap is empty. Cannot extract maximum.");
@@ -42,6 +71,11 @@ public class MaxHeap<T extends Comparable<T>> implements Heap<T> {
         return max;
     }
 
+    /**
+     * Checks if the MaxHeap is empty.
+     *
+     * @return true if the MaxHeap is empty, false otherwise.
+     */
     @Override
     public boolean isEmpty() {
         return heap.isEmpty();
