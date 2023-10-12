@@ -20,16 +20,12 @@ public class CustomArrayList<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(INDEX_OUT_OF_BOUNDS);
-        }
+        checkIndex(index);
         return (T) array[index];
     }
 
     public void set(int index, T element) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(INDEX_OUT_OF_BOUNDS);
-        }
+        checkIndex(index);
         array[index] = element;
     }
 
@@ -38,9 +34,7 @@ public class CustomArrayList<T> {
     }
 
     public void remove(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(INDEX_OUT_OF_BOUNDS);
-        }
+        checkIndex(index);
 
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
@@ -57,6 +51,12 @@ public class CustomArrayList<T> {
         if (size == array.length) {
             int newCapacity = array.length * 2;
             array = Arrays.copyOf(array, newCapacity);
+        }
+    }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(INDEX_OUT_OF_BOUNDS);
         }
     }
 }
