@@ -2,7 +2,7 @@ package by.nata.priorityqueue.util;
 
 import by.nata.priorityqueue.util.api.Heap;
 
-public class MaxHeap <T extends Comparable<T>> implements Heap<T> {
+public class MaxHeap<T extends Comparable<T>> implements Heap<T> {
 
     private final CustomArrayList<T> heap;
 

@@ -3,7 +3,7 @@ package by.nata.priorityqueue.impl;
 import by.nata.priorityqueue.api.PriorityQueue;
 import by.nata.priorityqueue.util.MinHeap;
 
-public class MinPriorityQueue <T extends Comparable<T>> implements PriorityQueue<T> {
+public class MinPriorityQueue<T extends Comparable<T>> implements PriorityQueue<T> {
 
     private final MinHeap<T> minHeap;
 
