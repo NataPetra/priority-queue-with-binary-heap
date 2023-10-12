@@ -118,4 +118,22 @@ class MaxHeapTest {
         }
     }
 
+    @Test
+    void testInsertWithDuplicateElements() {
+        maxHeap.insert(5);
+        maxHeap.insert(10);
+        maxHeap.insert(10);
+        maxHeap.insert(2);
+        maxHeap.insert(7);
+        maxHeap.insert(2);
+
+        assertEquals(10, maxHeap.extractMax());
+        assertEquals(10, maxHeap.extractMax());
+        assertEquals(7, maxHeap.extractMax());
+        assertEquals(5, maxHeap.extractMax());
+        assertEquals(2, maxHeap.extractMax());
+        assertEquals(2, maxHeap.extractMax());
+        assertTrue(maxHeap.isEmpty());
+    }
+
 }

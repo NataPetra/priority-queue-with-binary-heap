@@ -3,7 +3,7 @@ package by.nata.priorityqueue.util;
 import by.nata.priorityqueue.util.api.Heap;
 
 public class MinHeap <T extends Comparable<T>> implements Heap<T> {
-    private CustomArrayList<T> heap;
+    private final CustomArrayList<T> heap;
 
     public MinHeap() {
         heap = new CustomArrayList<>();
@@ -48,7 +48,9 @@ public class MinHeap <T extends Comparable<T>> implements Heap<T> {
 
     private void siftUp(int index) {
         int parentIndex = (index - 1) / 2;
-        while (index > 0 && heap.get(index).compareTo(heap.get(parentIndex)) < 0) {
+        T currentItem = heap.get(index);
+
+        while (index > 0 && currentItem.compareTo(heap.get(parentIndex)) < 0) {
             swap(index, parentIndex);
             index = parentIndex;
             parentIndex = (index - 1) / 2;
@@ -75,6 +77,10 @@ public class MinHeap <T extends Comparable<T>> implements Heap<T> {
     }
 
     private void swap(int i, int j) {
+        if (i == j) {
+            return;
+        }
+
         T temp = heap.get(i);
         heap.set(i, heap.get(j));
         heap.set(j, temp);
