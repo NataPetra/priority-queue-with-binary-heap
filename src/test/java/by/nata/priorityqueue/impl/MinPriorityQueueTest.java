@@ -3,9 +3,10 @@ package by.nata.priorityqueue.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MinPriorityQueueTest {
@@ -19,48 +20,39 @@ class MinPriorityQueueTest {
 
     @Test
     void testInsertAndPeek() {
-        minPriorityQueue.insert(5);
-        minPriorityQueue.insert(10);
-        minPriorityQueue.insert(2);
+        minPriorityQueue.add(5);
+        minPriorityQueue.add(10);
+        minPriorityQueue.add(2);
 
         assertEquals(2, minPriorityQueue.peek());
     }
 
     @Test
     void testExtractFirst() {
-        minPriorityQueue.insert(5);
-        minPriorityQueue.insert(10);
-        minPriorityQueue.insert(2);
+        minPriorityQueue.add(5);
+        minPriorityQueue.add(10);
+        minPriorityQueue.add(2);
 
-        assertEquals(2, minPriorityQueue.extractFirst());
-        assertEquals(5, minPriorityQueue.extractFirst());
-        assertEquals(10, minPriorityQueue.extractFirst());
+        assertEquals(2, minPriorityQueue.poll());
+        assertEquals(5, minPriorityQueue.poll());
+        assertEquals(10, minPriorityQueue.poll());
     }
 
     @Test
     void testIsEmpty() {
         assertTrue(minPriorityQueue.isEmpty());
-        minPriorityQueue.insert(5);
+        minPriorityQueue.add(5);
         assertFalse(minPriorityQueue.isEmpty());
-        minPriorityQueue.extractFirst();
+        minPriorityQueue.poll();
         assertTrue(minPriorityQueue.isEmpty());
     }
 
     @Test
-    void testPeekOnEmptyQueue() {
-        assertThrows(IllegalStateException.class, () -> minPriorityQueue.peek());
-    }
-
-    @Test
-    void testExtractFirstOnEmptyQueue() {
-        assertThrows(IllegalStateException.class, () -> minPriorityQueue.extractFirst());
-    }
-
-    @Test
-    void testExtractFirstOnEmptyQueueAfterInsert() {
-        minPriorityQueue.insert(5);
-        minPriorityQueue.extractFirst();
-        assertThrows(IllegalStateException.class, () -> minPriorityQueue.extractFirst());
+    void testWithReverseComparator() {
+        MinPriorityQueue<Integer> minPriorityQueueWithComparator = new MinPriorityQueue<Integer>(Comparator.reverseOrder());
+        minPriorityQueueWithComparator.add(10);
+        minPriorityQueueWithComparator.add(20);
+        assertEquals(20, minPriorityQueueWithComparator.peek());
     }
 
 }

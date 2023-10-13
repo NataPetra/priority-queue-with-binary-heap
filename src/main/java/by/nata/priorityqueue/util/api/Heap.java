@@ -1,6 +1,6 @@
 package by.nata.priorityqueue.util.api;
 
-public interface Heap<T extends Comparable<T>> {
+public interface Heap<T> {
     void insert(T item);
 
     T peek();

@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class CustomArrayList<T> {
 
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 8;
     public static final String INDEX_OUT_OF_BOUNDS = "Index out of bounds.";
     private Object[] array;
     private int size;

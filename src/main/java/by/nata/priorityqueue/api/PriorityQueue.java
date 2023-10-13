@@ -1,12 +1,12 @@
 package by.nata.priorityqueue.api;
 
-public interface PriorityQueue<T extends Comparable<T>> {
+public interface PriorityQueue<T> {
 
-    void insert(T item);
+    void add(T item);
 
     T peek();
 
-    T extractFirst() throws IllegalStateException;
+    T poll() throws IllegalStateException;
 
     boolean isEmpty();
 }

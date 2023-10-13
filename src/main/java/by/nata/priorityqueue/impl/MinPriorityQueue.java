@@ -3,7 +3,9 @@ package by.nata.priorityqueue.impl;
 import by.nata.priorityqueue.api.PriorityQueue;
 import by.nata.priorityqueue.util.MinHeap;
 
-public class MinPriorityQueue<T extends Comparable<T>> implements PriorityQueue<T> {
+import java.util.Comparator;
+
+public class MinPriorityQueue<T> implements PriorityQueue<T> {
 
     private final MinHeap<T> minHeap;
 
@@ -11,8 +13,12 @@ public class MinPriorityQueue<T extends Comparable<T>> implements PriorityQueue<
         minHeap = new MinHeap<>();
     }
 
+    public MinPriorityQueue(Comparator<T> comparator) {
+        minHeap = new MinHeap<>(comparator);
+    }
+
     @Override
-    public void insert(T item) {
+    public void add(T item) {
         minHeap.insert(item);
     }
 
@@ -22,7 +28,7 @@ public class MinPriorityQueue<T extends Comparable<T>> implements PriorityQueue<
     }
 
     @Override
-    public T extractFirst() {
+    public T poll() {
         return minHeap.extractMin();
     }
 

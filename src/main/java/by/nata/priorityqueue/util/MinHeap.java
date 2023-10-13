@@ -2,49 +2,80 @@ package by.nata.priorityqueue.util;
 
 import by.nata.priorityqueue.util.api.Heap;
 
+import java.util.Comparator;
+
 /**
- * This class represents a MinHeap, which is a data structure that maintains the minimum element
- * at the top of the heap. It implements the Heap interface and can be used to create a priority
- * queue with the minimum element as the highest priority.
+ * This class represents a generic MinHeap, a specialized binary heap data structure
+ * where the parent node is smaller than or equal to its children.
  *
- * @param <T> The type of elements stored in the MinHeap. It should implement the Comparable interface
- *           to enable comparison of elements.
+ * @param <T> The type of elements stored in the MinHeap.
  */
-public class MinHeap<T extends Comparable<T>> implements Heap<T> {
+public class MinHeap<T> implements Heap<T> {
     private final CustomArrayList<T> heap;
+    private final Comparator<T> comparator;
 
     /**
-     * Constructs a new MinHeap.
+     * Default comparator class for elements in the MinHeap.
+     *
+     * @param <T> The type of elements to compare.
      */
-    public MinHeap() {
-        heap = new CustomArrayList<>();
+    private static class DefaultComparator<T> implements Comparator<T> {
+        @Override
+        public int compare(T o1, T o2) {
+            if (o1 instanceof Comparable && o2 instanceof Comparable) {
+                return ((Comparable<T>) o1).compareTo(o2);
+            } else {
+                throw new IllegalArgumentException("Objects are not Comparable");
+            }
+        }
     }
 
     /**
-     * Inserts a new element into the MinHeap.
+     * Constructs a new MinHeap with the default comparator based on natural ordering.
+     */
+    public MinHeap() {
+        this(new DefaultComparator<>());
+    }
+
+    /**
+     * Constructs a new MinHeap with the specified comparator.
      *
-     * @param item The element to be inserted. Must not be null.
-     * @throws IllegalArgumentException if the provided element is null.
+     * @param comparator The comparator used to compare elements in the MinHeap.
+     */
+    public MinHeap(Comparator<T> comparator) {
+        heap = new CustomArrayList<>();
+        this.comparator = comparator;
+    }
+
+    /**
+     * Inserts an element into the MinHeap.
+     *
+     * @param item The element to insert.
+     * @throws IllegalArgumentException if the element is null or not comparable.
      */
     @Override
     public void insert(T item) {
-        if (item == null) {
-            throw new IllegalArgumentException("Null elements are not allowed");
+        if (item != null) {
+            if (comparator != null || item instanceof Comparable<?>) {
+                heap.add(item);
+                siftUp(heap.size() - 1);
+            } else {
+                throw new IllegalArgumentException("Item must implement Comparable or provide a Comparator.");
+            }
+        } else {
+            throw new IllegalArgumentException("Null elements are not allowed.");
         }
-        heap.add(item);
-        siftUp(heap.size() - 1);
     }
 
     /**
-     * Returns the minimum element in the MinHeap without removing it.
+     * Retrieves the minimum element from the MinHeap without removing it.
      *
-     * @return The minimum element in the MinHeap.
-     * @throws IllegalStateException if the MinHeap is empty.
+     * @return The minimum element, or null if the MinHeap is empty.
      */
     @Override
     public T peek() {
         if (isEmpty()) {
-            throw new IllegalStateException("Heap is empty. Cannot peek.");
+            return null;
         }
         return heap.get(0);
     }
@@ -52,12 +83,12 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
     /**
      * Extracts and removes the minimum element from the MinHeap.
      *
-     * @return The minimum element that was removed.
+     * @return The minimum element, or null if the MinHeap is empty.
      * @throws IllegalStateException if the MinHeap is empty.
      */
     public T extractMin() throws IllegalStateException {
         if (isEmpty()) {
-            throw new IllegalStateException("Heap is empty. Cannot extract minimum.");
+            return null;
         }
 
         T min = heap.get(0);
@@ -65,7 +96,7 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
         heap.set(0, heap.get(lastIndex));
         heap.remove(lastIndex);
         if (!isEmpty()) {
-            siftDown(0);
+            siftDown();
         }
         return min;
     }
@@ -84,29 +115,41 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
         int parentIndex = (index - 1) / 2;
         T currentItem = heap.get(index);
 
-        while (index > 0 && currentItem.compareTo(heap.get(parentIndex)) < 0) {
-            swap(index, parentIndex);
-            index = parentIndex;
-            parentIndex = (index - 1) / 2;
+        while (index > 0) {
+            T parentItem = heap.get(parentIndex);
+            if (comparator.compare(currentItem, parentItem) < 0) {
+                swap(index, parentIndex);
+                index = parentIndex;
+                parentIndex = (index - 1) / 2;
+            } else {
+                break;
+            }
         }
     }
 
-    private void siftDown(int index) {
-        int leftChildIndex = 2 * index + 1;
-        int rightChildIndex = 2 * index + 2;
-        int smallest = index;
+    private void siftDown() {
+        int size = heap.size();
+        int index = 0;
 
-        if (leftChildIndex < heap.size() && heap.get(leftChildIndex).compareTo(heap.get(smallest)) < 0) {
-            smallest = leftChildIndex;
-        }
+        while (true) {
+            int leftChildIndex = 2 * index + 1;
+            int rightChildIndex = 2 * index + 2;
+            int smallest = index;
 
-        if (rightChildIndex < heap.size() && heap.get(rightChildIndex).compareTo(heap.get(smallest)) < 0) {
-            smallest = rightChildIndex;
-        }
+            if (leftChildIndex < size && (comparator.compare(heap.get(leftChildIndex), heap.get(smallest)) < 0)) {
+                    smallest = leftChildIndex;
+            }
 
-        if (smallest != index) {
-            swap(index, smallest);
-            siftDown(smallest);
+            if (rightChildIndex < size && (comparator.compare(heap.get(rightChildIndex), heap.get(smallest)) < 0)) {
+                    smallest = rightChildIndex;
+            }
+
+            if (smallest != index) {
+                swap(index, smallest);
+                index = smallest;
+            } else {
+                break;
+            }
         }
     }
 
