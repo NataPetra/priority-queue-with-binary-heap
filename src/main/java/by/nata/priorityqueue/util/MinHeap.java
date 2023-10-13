@@ -84,9 +84,8 @@ public class MinHeap<T> implements Heap<T> {
      * Extracts and removes the minimum element from the MinHeap.
      *
      * @return The minimum element, or null if the MinHeap is empty.
-     * @throws IllegalStateException if the MinHeap is empty.
      */
-    public T extractMin() throws IllegalStateException {
+    public T extractMin() {
         if (isEmpty()) {
             return null;
         }
@@ -137,11 +136,11 @@ public class MinHeap<T> implements Heap<T> {
             int smallest = index;
 
             if (leftChildIndex < size && (comparator.compare(heap.get(leftChildIndex), heap.get(smallest)) < 0)) {
-                    smallest = leftChildIndex;
+                smallest = leftChildIndex;
             }
 
             if (rightChildIndex < size && (comparator.compare(heap.get(rightChildIndex), heap.get(smallest)) < 0)) {
-                    smallest = rightChildIndex;
+                smallest = rightChildIndex;
             }
 
             if (smallest != index) {
