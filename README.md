@@ -17,15 +17,14 @@ A Priority Queue is a fundamental data structure used in various algorithms and 
 The project is organized into the following classes and interfaces:
 
 - `PriorityQueue` Interface: Defines the core methods for working with Priority Queues. It offers a common API for different implementations.
-- `MinPriorityQueue` Class: Implements the Min-Priority Queue using a Min-Heap data structure. This class allows you to manage elements with the lowest priority at the top.
-- `Heap` Interface: Defines the basic methods for inserting elements, peeking at the top element, and checking if the heap is empty. It is used by the `MinPriorityQueue`.
+- `MinHeap` Class: Implements the Min-Priority Queue using a Min-Heap data structure. This class allows you to manage elements with the lowest priority at the top.
 - `CustomArrayList` Class: A custom dynamic array for internal use in the `MinHeap` class. It is used to manage the elements within the heap.
 
 ## API Overview
 
-### MinPriorityQueue Class
+### MinHeap Class
 
-The `MinPriorityQueue` class implements the Min-Priority Queue. It offers methods for managing elements with the lowest priority at the top:
+The `MinHeap` class implements the Min-Priority Queue. It offers methods for managing elements with the lowest priority at the top:
 
 - `add(T item)`: Insert an element with lower priority.
 - `peek()`: Get the element with the lowest priority.
@@ -39,7 +38,7 @@ You can use this Min-Priority Queue in your Java applications to manage elements
 Here's an example of how to use the Min-Priority Queue:
 
 ```java
-MinPriorityQueue<Integer> minQueue = new MinPriorityQueue<>();
+MinHeap<Integer> minQueue = new MinHeap<>();
 minQueue.add(5);
 minQueue.add(10);
 minQueue.add(2);

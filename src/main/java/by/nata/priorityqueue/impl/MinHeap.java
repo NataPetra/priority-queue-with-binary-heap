@@ -1,6 +1,7 @@
-package by.nata.priorityqueue.util;
+package by.nata.priorityqueue.impl;
 
-import by.nata.priorityqueue.util.api.Heap;
+import by.nata.priorityqueue.api.PriorityQueue;
+import by.nata.priorityqueue.util.CustomArrayList;
 
 import java.util.Comparator;
 
@@ -10,7 +11,7 @@ import java.util.Comparator;
  *
  * @param <T> The type of elements stored in the MinHeap.
  */
-public class MinHeap<T> implements Heap<T> {
+public class MinHeap<T> implements PriorityQueue<T> {
     private final CustomArrayList<T> heap;
     private final Comparator<T> comparator;
 
@@ -54,7 +55,7 @@ public class MinHeap<T> implements Heap<T> {
      * @throws IllegalArgumentException if the element is null or not comparable.
      */
     @Override
-    public void insert(T item) {
+    public void add(T item) {
         if (item != null) {
             if (comparator != null || item instanceof Comparable<?>) {
                 heap.add(item);
@@ -85,7 +86,8 @@ public class MinHeap<T> implements Heap<T> {
      *
      * @return The minimum element, or null if the MinHeap is empty.
      */
-    public T extractMin() {
+    @Override
+    public T poll() {
         if (isEmpty()) {
             return null;
         }
@@ -129,8 +131,9 @@ public class MinHeap<T> implements Heap<T> {
     private void siftDown() {
         int size = heap.size();
         int index = 0;
+        boolean continueSifting = true;
 
-        while (true) {
+        while (continueSifting) {
             int leftChildIndex = 2 * index + 1;
             int rightChildIndex = 2 * index + 2;
             int smallest = index;
@@ -147,7 +150,7 @@ public class MinHeap<T> implements Heap<T> {
                 swap(index, smallest);
                 index = smallest;
             } else {
-                break;
+                continueSifting = false;
             }
         }
     }

@@ -11,14 +11,14 @@ public class CustomArrayList<T> {
 
     private static final int DEFAULT_CAPACITY = 8;
     public static final String INDEX_OUT_OF_BOUNDS = "Index out of bounds.";
-    private Object[] array;
+    private T[] array;
     private int size;
 
     /**
      * Constructs a new CustomArrayList with the default initial capacity.
      */
     public CustomArrayList() {
-        array = new Object[DEFAULT_CAPACITY];
+        array = (T[]) new Object[DEFAULT_CAPACITY];
         size = 0;
     }
 
@@ -41,7 +41,7 @@ public class CustomArrayList<T> {
      */
     public T get(int index) {
         checkIndex(index);
-        return (T) array[index];
+        return array[index];
     }
 
     /**
