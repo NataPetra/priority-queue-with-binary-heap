@@ -16,26 +16,10 @@ public class MinHeap<T> implements PriorityQueue<T> {
     private final Comparator<T> comparator;
 
     /**
-     * Default comparator class for elements in the MinHeap.
-     *
-     * @param <T> The type of elements to compare.
-     */
-    private static class DefaultComparator<T> implements Comparator<T> {
-        @Override
-        public int compare(T o1, T o2) {
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                return ((Comparable<T>) o1).compareTo(o2);
-            } else {
-                throw new IllegalArgumentException("Objects are not Comparable");
-            }
-        }
-    }
-
-    /**
      * Constructs a new MinHeap with the default comparator based on natural ordering.
      */
     public MinHeap() {
-        this(new DefaultComparator<>());
+        this((Comparator<T>) Comparator.naturalOrder());
     }
 
     /**
@@ -131,9 +115,8 @@ public class MinHeap<T> implements PriorityQueue<T> {
     private void siftDown() {
         int size = heap.size();
         int index = 0;
-        boolean continueSifting = true;
 
-        while (continueSifting) {
+        while (index < size) {
             int leftChildIndex = 2 * index + 1;
             int rightChildIndex = 2 * index + 2;
             int smallest = index;
@@ -150,7 +133,7 @@ public class MinHeap<T> implements PriorityQueue<T> {
                 swap(index, smallest);
                 index = smallest;
             } else {
-                continueSifting = false;
+                break;
             }
         }
     }
